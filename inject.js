@@ -1,1 +1,1 @@
-document.body.innerHTML = `<h1>Back to Work!</h1>`
+document.body.innerHTML = `<h1 style="color: blue;">Back to Work!</h1>`;

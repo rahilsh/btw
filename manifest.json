@@ -1,18 +1,19 @@
 {
-    "name": "Back to Work",
-    "version": "1.0",
-    "manifest_version": 1,
-    "content_scripts": [
-        {
-            "js": [
-                "inject.js"
-            ],
-            "matches": [
-                "https://*.twitter.com/*",
-                "https://*.facebook.com/*",
-                "https://*.reddit.com/*",
-                "https://*.youtube.com/*"
-            ]
-        }
-    ]
+  "name": "Back to Work",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "js": [
+        "inject.js"
+      ],
+      "matches": [
+        "https://*.twitter.com/*",
+        "https://*.facebook.com/*",
+        "https://*.reddit.com/*",
+        "https://*.youtube.com/*",
+        "https://*.instagram.com/*"
+      ]
+    }
+  ]
 }
