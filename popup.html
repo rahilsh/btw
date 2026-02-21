@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Back to Work</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #fff7ed;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --accent: #ea580c;
+      }
+
+      body {
+        margin: 0;
+        width: 320px;
+        background: radial-gradient(circle at top right, #fed7aa 0%, var(--bg) 50%, #ffedd5 100%);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text);
+      }
+
+      .card {
+        margin: 14px;
+        padding: 14px;
+        background: var(--card);
+        border: 1px solid #fdba74;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 17px;
+      }
+
+      p {
+        margin: 0 0 14px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      label {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      input[type="checkbox"] {
+        width: 42px;
+        height: 24px;
+        accent-color: var(--accent);
+        cursor: pointer;
+      }
+
+      .site {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+
+      .site strong {
+        color: #9a3412;
+      }
+
+      .bypass {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+
+      button {
+        border: 1px solid #fdba74;
+        border-radius: 8px;
+        background: #fff7ed;
+        color: #9a3412;
+        font-size: 12px;
+        padding: 7px 6px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #ffedd5;
+      }
+
+      #clearBypass {
+        margin-top: 8px;
+        width: 100%;
+      }
+
+      #status,
+      #bypassStatus {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #9a3412;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Back to Work</h1>
+      <p>Control blocking for distracting sites.</p>
+      <div class="toggle-row">
+        <label for="enabled">Blocking enabled</label>
+        <input id="enabled" type="checkbox" />
+      </div>
+
+      <div class="site">Current site: <strong id="hostname">Unknown</strong></div>
+      <div class="bypass">
+        <button type="button" class="bypass-btn" data-minutes="5">Bypass 5m</button>
+        <button type="button" class="bypass-btn" data-minutes="15">Bypass 15m</button>
+        <button type="button" class="bypass-btn" data-minutes="30">Bypass 30m</button>
+      </div>
+      <button type="button" id="clearBypass">Clear site bypass</button>
+
+      <div id="status" aria-live="polite"></div>
+      <div id="bypassStatus" aria-live="polite"></div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

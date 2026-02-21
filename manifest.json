@@ -1,19 +1,24 @@
 {
   "name": "Back to Work",
-  "version": "1.0",
+  "version": "1.3.0",
   "manifest_version": 3,
+  "description": "Block distracting websites and stay focused.",
+  "permissions": ["storage", "tabs"],
+  "action": {
+    "default_popup": "popup.html"
+  },
   "content_scripts": [
     {
-      "js": [
-        "inject.js"
-      ],
+      "js": ["inject.js"],
       "matches": [
         "https://*.twitter.com/*",
+        "https://*.x.com/*",
         "https://*.facebook.com/*",
         "https://*.reddit.com/*",
         "https://*.youtube.com/*",
         "https://*.instagram.com/*"
-      ]
+      ],
+      "run_at": "document_start"
     }
   ]
 }
