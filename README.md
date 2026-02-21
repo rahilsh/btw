@@ -4,7 +4,7 @@ Back To Work Chrome Extension disables website access so that we can focus just 
 
 ## How To Use
 
-* Clone this Repo
+* Clone this Repo into local
     ```
     git clone https://github.com/rahilsh/btw
     ```
