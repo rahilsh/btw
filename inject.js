@@ -3,6 +3,7 @@ const BYPASS_KEY = "btw_site_bypass_until";
 const BYPASS_ATTEMPTS_KEY = "btw_bypass_attempts";
 const OVERLAY_ID = "btw-block-overlay";
 const MAX_BYPASS_ATTEMPTS = 3;
+let bypassTimeoutId = null;
 
 function getTodayKey() {
   const now = new Date();
@@ -68,6 +69,32 @@ function getAttemptCountForHost(attemptsMap, hostname) {
   return Math.max(0, Math.min(MAX_BYPASS_ATTEMPTS, Math.floor(entry.count)));
 }
 
+function clearBypassTimer() {
+  if (bypassTimeoutId !== null) {
+    window.clearTimeout(bypassTimeoutId);
+    bypassTimeoutId = null;
+  }
+}
+
+function syncBypassTimer(enabled, bypassMap) {
+  clearBypassTimer();
+
+  if (enabled === false) {
+    return;
+  }
+
+  const until = bypassMap[window.location.hostname];
+  if (typeof until !== "number") {
+    return;
+  }
+
+  const delay = Math.max(0, until - Date.now());
+  bypassTimeoutId = window.setTimeout(() => {
+    bypassTimeoutId = null;
+    loadAndApplyState();
+  }, delay);
+}
+
 function updateOverlayAttemptMessage(overlay, attemptsMap) {
   const statusEl = overlay.querySelector("#btw-bypass-status");
   if (!statusEl) {
@@ -96,6 +123,12 @@ function setOverlayButtonState(overlay, attemptsMap) {
   });
 
   updateOverlayAttemptMessage(overlay, attemptsMap);
+}
+
+function pauseActiveMedia() {
+  document.querySelectorAll("video, audio").forEach((mediaElement) => {
+    mediaElement.pause();
+  });
 }
 
 function removeOverlay() {
@@ -189,6 +222,7 @@ function addOverlay() {
 
   document.documentElement.style.overflow = "hidden";
   document.documentElement.appendChild(overlay);
+  pauseActiveMedia();
 
   chrome.storage.local.get({ [BYPASS_ATTEMPTS_KEY]: {} }, (result) => {
     const { cleaned, changed } = cleanupAttemptEntries(result[BYPASS_ATTEMPTS_KEY] || {});
@@ -241,6 +275,7 @@ function loadAndApplyState() {
       });
     }
 
+    syncBypassTimer(result[STORAGE_KEY], cleanedBypass);
     applyState(result[STORAGE_KEY], cleanedBypass);
 
     const overlay = document.getElementById(OVERLAY_ID);
@@ -260,6 +295,23 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
   }
 
   loadAndApplyState();
+});
+
+document.addEventListener("play", (event) => {
+  if (!document.getElementById(OVERLAY_ID)) {
+    return;
+  }
+
+  if (event.target instanceof HTMLMediaElement) {
+    event.target.pause();
+  }
+}, true);
+
+window.addEventListener("focus", loadAndApplyState);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    loadAndApplyState();
+  }
 });
 
 loadAndApplyState();

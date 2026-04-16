@@ -34,4 +34,5 @@ Back to Work is a Chrome extension that blocks distracting websites so you can f
 - Blocking state is saved in `chrome.storage.local` under `btw_enabled`.
 - Temporary bypass timestamps are stored under `btw_site_bypass_until`.
 - Daily bypass attempt counters (max 3 per hostname per day) are stored under `btw_bypass_attempts`.
+- When a bypass expires, the blocker returns automatically on the open tab and pauses active media.
 - Content script runs at `document_start` for faster blocking.
