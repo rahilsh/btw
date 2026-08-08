@@ -17,7 +17,7 @@ Back to Work is a Chrome extension that blocks distracting websites so you can f
 
 1. Clone this repo:
    ```bash
-   git clone https://github.com/rahilsh/btw
+   git clone https://github.com/rahilsh/back-to-work
    ```
 2. Open `chrome://extensions/` in Chrome.
 3. Turn on **Developer mode** (top-right).
